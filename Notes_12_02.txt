@@ -1,0 +1,49 @@
+NOtes Zukunft DFG Projekt
+
+Review der SSI-4 Daten unter Ausschluss aller "influential" subjects und items?
+
+Lab Paradigma: ISI von wieviel Sekunden?
+
+Globale RT in meinen vs. andere Experimenten
+
+Standard Replikation über getippte Responses (plus ein deutlichen partner response cue, der aber nicht semantisch ist..)
+	-- Freunde einladen um ganz sicher zu gehen!?
+
+Project Line 1 on hold --> keine Möglichkeit vorerst für EEG (+ Replikationsproblem..)
+	-- prinzipielle Perspektive: kein EEG Aufwand ohne Klarheit über Replikation?
+		-- 
+
+Project Line 2: Nature of representation
+
+	- Foreign language task ließe sich online eigentlich ganz gut umsetzen (aber nur wenn Social CSI prinzipiell stabil ist?)
+
+Project Line 3: 
+Roboter Interaktion bzw. absichtlich durchsichtige Fake-Social Situation? 
+	-- Computer Stimme vs echte Menschenstimme?
+	-- Haupteffekt von SN vs JN (siehe Olga)
+		-- nicht bis ins lexikalische
+
+Kooperativ/Kompetitiv Manipulation könnte man online umsetzen --> bzw. zusätzlich eine "neutrale" weder kompetitive noch kooperative Bedingung??
+
+Project Line 4:
+Conversational Turn-Taking: evtl Online möglich? (und hier ist das Replikationsproblem nicht da?)
+	-- könnte man hier vielleicht auch die Manipulationen aus Line 3 anwenden?
+
+shared communicative history: ist doch entlang dessen was Annika gerade macht, oder? Könnte man das evtl auch erweitern um die Komponenten aus 3?
+
+
+
+1 DG und nur 1-4 OP
+	--  Abknicken bei OP 5 in JN
+	-- Abknicken in allen DG?
+	-- Alle Durchgänge separat!
+	-- by subject --> separate Plots!
+		-- grade auch mit dem Knick...
+	-- by category --> separate Plots!
+		-- grade auch mit dem Knick...
+	-- pre und post Corona	
+		-- Abknicken
+	-- Covariaten, Debriefing	
+		-- Plots
+
+ 
