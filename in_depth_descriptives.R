@@ -69,7 +69,7 @@ plot_incr_by_DG <- ggplot(data = incr_by_DG, mapping = aes(g_ng_count_cent, y = 
   xlab("Increase in Ordinal Position")+
   ylab("RT")+
   ggtitle("Mean Difference in RT per Ordinal Position by Condition", subtitle = " for each Repetition")+
-  scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))
+  scale_x_discrete(labels = c("ord pos i", "ord pos i+1"))
 
 ggsave("plots/incr_by_DG.jpg", plot = plot_incr_by_DG, device = "jpg", dpi = 700)
 
@@ -91,7 +91,7 @@ plot_incr_by_DG_lockdown <- ggplot(data = incr_by_DG_lockdown, mapping = aes(g_n
   xlab("Increase in Ordinal Position")+
   ylab("RT")+
   ggtitle("Mean Difference in RT per Ordinal Position by Condition", subtitle = " for each Repetition and pre post interruption")+
-  scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))
+  scale_x_discrete(labels = c("ord pos i", "ord pos i+1"))
 
 ggsave("plots/incr_by_DG_lockdown.jpg", device = "jpg", dpi = 700)
 
@@ -119,7 +119,7 @@ plot_incr_by_subj <- ggplot(data = incr_by_subj, aes(x = g_ng_count_cent, y = di
   ylab("RT")+
   ggtitle("Mean Difference in RT per Ordinal Position by Condition and Subject", 
           subtitle = "Neighbourng subjects are *mirrors of each other*")+
-  scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))+
+  scale_x_discrete(labels = c("ord pos i", "ord pos i+1"))+
   theme(plot.subtitle = element_markdown())
 ggsave("plots/incr_by_subj.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
 
@@ -150,10 +150,10 @@ plot_incr_by_subj_lock <- ggplot(data = incr_by_subj_lock,
   ylab("RT")+
   ggtitle("Mean Difference in RT per Ordinal Position by Condition", 
           subtitle = "separate for Subjects and by Interruption")+
-  scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))+
+  scale_x_discrete(labels = c("ord pos i", "ord pos i+1"))+
   theme(plot.subtitle = element_markdown())
 
-ggsave("plots/incr_by_subj_lock.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
+ggsave("plots/incr_by_subj_lock.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
 
 ## Dip from Ord Pos 4 to 5
 #by DG
@@ -205,6 +205,6 @@ ord_pos_by_subj_1_5_alt <- ggplot(data = desc_by_subj_4_5,
   ggtitle("RT at Ordinal Positions 4 and 5 by Condition and Subject", 
           subtitle = "Neighboring subjects are *mirrors of each other*") +
   theme(plot.subtitle = ggtext::element_markdown())
-ggsave("plots/pos_4_5_by_subj_alt.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
+ggsave("plots/pos_4_5_by_subj_alt.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
 
 
