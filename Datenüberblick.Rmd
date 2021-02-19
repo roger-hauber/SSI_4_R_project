@@ -2,30 +2,44 @@
 title: "Datenüberblick SSI-4"
 output: html_document
 ---
-<h3>Reaktionszeit für Bedingung und Ordinalposition über VP und Durchgänge hinweg</h3>
-![basic plot](plots/ord_pos.jpg)
+![](plots/ord_pos.jpg)
 <p></p>
-<h3>Getrennt für die vier Durchgänge:</h3>
-![by DG plot](plots/ord_pos_by_DG.jpg)
 <p></p>
-<h3>Zusätzlich getrennt für die Durchgänge und nach pre- post- Erhebungsunterbrechung:</h3>
-![by DG+lock plot](plots/ord_pos_by_DG_lockdown.jpg)
+![](plots/ord_pos_by_DG.jpg)
+<p></p>
+<p></p>
+<p></p>
+
+![](plots/ord_pos_by_DG_lockdown.jpg)
+<p></p>
+<p></p>
+
+![](plots/incr_by_DG.jpg)
+<p></p>
+<p></p>
+<p></p>
+
+![](plots/incr_by_DG_lockdown.jpg)
+<p></p>
+<p></p>
+<p></p>
+
+![](plots/incr_by_subj_lock.jpg)
+<p></p>
+<p></p>
+![](plots/incr_by_cat.jpg)
 
 
+<p></p>
+<p></p>
+<p></p>
+![](plots/pos_4_5_by_DG.jpg)
 
 <p></p>
-<h3>Durchschnittlicher Anstieg pro Ordinalposition nach Bedingung und Durchgang</h3>
-![incr by DG plot](plots/incr_by_DG.jpg)
 <p></p>
-<h3>Durchschnittlicher Anstieg pro Ordinalposition nach Bedingung und Durchgang und Unterbrechung</h3>
-![incr by DG plot](plots/incr_by_DG_lockdown.jpg)
 <p></p>
-<h3>Durchschnittlicher Anstieg pro Ordinalposition nach Bedingung und Durchgang und Unterbrechung für jede VP</h3>
-![incr by DG plot](plots/incr_by_subj_lock.jpg)
-<p></p>
-<h3>"Abknicken" bei Ordinalposition 4 zu 5 - je Durchgang</h3>
-![pos 4 5 by DG plot](plots/pos_4_5_by_DG.jpg)
+![](plots/pos_4_5_by_subj_alt.jpg)
 
 <p></p>
-<h3>"Abknicken" bei Ordinalposition 4 zu 5 - je VP</h3>
-![pos 4 5 by subj plot](plots/pos_4_5_by_subj_alt.jpg)
+<p></p>
+![](plots/pos_4_5_by_cat_alt.jpg)
