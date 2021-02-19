@@ -22,7 +22,9 @@ desc_across <- summarise(group_by(a4, Cond, g_ng_count_1_5), RT = mean(RT))
 
 ord_pos <- ggplot(data = desc_across, mapping = aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
   geom_point() +
-  geom_line(aes(group = Cond))
+  geom_line(aes(group = Cond))+
+  xlab("Ordinal Position")+
+  ggtitle("RT by Ordinal Position and Condition")
 ggsave("plots/ord_pos.jpg", device = "jpg", dpi = 700)
 
 #mean RT for ord pos by DG and Cond
@@ -184,7 +186,7 @@ desc_by_subj_4_5$subject <- factor(desc_by_subj_4_5$subject, levels = subj_level
 
 #plot
 
-ord_pos_by_subj_1_5 <- ggplot(data = desc_by_subj_4_5, 
+ord_pos_by_subj_4_5 <- ggplot(data = desc_by_subj_4_5, 
                           mapping = aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
   geom_point() +
   geom_line(aes(group = Cond)) +
@@ -196,7 +198,7 @@ ord_pos_by_subj_1_5 <- ggplot(data = desc_by_subj_4_5,
 ggsave("plots/pos_4_5_by_subj.pdf", device = "pdf", dpi = 700, height = 15, width = 12)
 
 #alternate display of grid
-ord_pos_by_subj_1_5_alt <- ggplot(data = desc_by_subj_4_5, 
+ord_pos_by_subj_4_5_alt <- ggplot(data = desc_by_subj_4_5, 
                           mapping = aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
   geom_point() +
   geom_line(aes(group = Cond)) +
