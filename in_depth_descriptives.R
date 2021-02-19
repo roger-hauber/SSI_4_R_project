@@ -3,7 +3,7 @@ library(tidyverse)
 library(ggtext)
 
 #load data
-a4 <- read.csv2("../a4_SSI_4.csv")
+a4 <- read.csv2("a4_SSI_4.csv")
 
 #okay once again from the top
 # first things first: pre-post variable for a4 data
@@ -21,7 +21,7 @@ desc_across <- summarise(group_by(a4, Cond, g_ng_count_1_5), RT = mean(RT))
 ord_pos <- ggplot(data = desc_across, mapping = aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
   geom_point() +
   geom_line(aes(group = Cond))
-ggsave("../plots/ord_pos.jpg", device = "jpg", dpi = 700)
+ggsave("plots/ord_pos.jpg", device = "jpg", dpi = 700)
 
 #mean RT for ord pos by DG and Cond
 desc_by_DG <- summarise(group_by(a4, g_ng_count_1_5, Cond, DG), RT = mean(RT))
@@ -34,7 +34,7 @@ ord_pos_by_DG <- ggplot(data = desc_by_DG, mapping = aes(x = g_ng_count_1_5, y =
   xlab("Ordinal Position")+
   ggtitle("Mean RT by Ordinal Position and Condition", subtitle = "for each Repetition")
 
-ggsave("../plots/ord_pos_by_DG.jpg", device = "jpg", dpi = 700)
+ggsave("plots/ord_pos_by_DG.jpg", device = "jpg", dpi = 700)
 
 # separate for pre and post lockdown
 desc_by_DG_lockdown <- summarise(group_by(a4, g_ng_count_1_5, Cond, DG, lockdown), RT = mean(RT))
@@ -47,7 +47,7 @@ ord_pos_by_DG_lockdown <- ggplot(data = desc_by_DG_lockdown, mapping = aes(x = g
   xlab("Ordinal Position")+
   ggtitle("Mean RT by Ordinal Position and Condition", subtitle = "for each Repetition and for pre and post interruption")
 
-ggsave("../plots/ord_pos_by_DG_lockdown.jpg", device = "jpg", dpi = 700)
+ggsave("plots/ord_pos_by_DG_lockdown.jpg", device = "jpg", dpi = 700)
 
 # mean increase per ordinal position by DG and Cond
 incr_by_DG <- summarise(group_by(a4[a4$g_ng_count_cent %in% c(-2, 2), ], g_ng_count_cent, DG, Cond), 
@@ -69,7 +69,7 @@ plot_incr_by_DG <- ggplot(data = incr_by_DG, mapping = aes(g_ng_count_cent, y = 
   ggtitle("Mean Difference in RT per Ordinal Position by Condition", subtitle = " for each Repetition")+
   scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))
 
-ggsave("../plots/incr_by_DG.jpg", plot = plot_incr_by_DG, device = "jpg", dpi = 700)
+ggsave("plots/incr_by_DG.jpg", plot = plot_incr_by_DG, device = "jpg", dpi = 700)
 
 #separately for lockdown pre post
 # mean increase per ordinal position by DG and Cond
@@ -91,7 +91,7 @@ plot_incr_by_DG_lockdown <- ggplot(data = incr_by_DG_lockdown, mapping = aes(g_n
   ggtitle("Mean Difference in RT per Ordinal Position by Condition", subtitle = " for each Repetition and pre post interruption")+
   scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))
 
-ggsave("../plots/incr_by_DG_lockdown.jpg", device = "jpg", dpi = 700)
+ggsave("plots/incr_by_DG_lockdown.jpg", device = "jpg", dpi = 700)
 
 ## Dip from Ord Pos 4 to 5
 #by DG
@@ -107,7 +107,7 @@ ord_pos_1_5_by_DG <- ggplot(data = desc_by_DG_4_5,
   xlab("Ordinal Position") +
   ggtitle("RT at Ordinal Positions 4 and 5 by Condition", subtitle = "for each Repetition")
 
-ggsave("../plots/pos_4_5_by_DG.jpg", device = "jpg", dpi = 700)
+ggsave("plots/pos_4_5_by_DG.jpg", device = "jpg", dpi = 700)
 
 #by subject
 desc_by_subj_4_5 <- summarise(group_by(a4[a4$g_ng_count_1_5 %in% c("4", "5"), ], 
@@ -128,7 +128,7 @@ ord_pos_by_subj_1_5 <- ggplot(data = desc_by_subj_4_5,
   ggtitle("RT at Ordinal Positions 4 and 5 by Condition and Subject", 
           subtitle = "Neighboring subjects are *mirrors of each other*") +
   theme(plot.subtitle = ggtext::element_markdown())
-ggsave("../plots/pos_4_5_by_subj.pdf", device = "pdf", dpi = 700, height = 15, width = 12)
+ggsave("plots/pos_4_5_by_subj.pdf", device = "pdf", dpi = 700, height = 15, width = 12)
 
 #alternate display of grid
 ord_pos_by_subj_1_5_alt <- ggplot(data = desc_by_subj_4_5, 
@@ -140,4 +140,4 @@ ord_pos_by_subj_1_5_alt <- ggplot(data = desc_by_subj_4_5,
   ggtitle("RT at Ordinal Positions 4 and 5 by Condition and Subject", 
           subtitle = "Neighboring subjects are *mirrors of each other*") +
   theme(plot.subtitle = ggtext::element_markdown())
-ggsave("../plots/pos_4_5_by_subj_alt.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
+ggsave("plots/pos_4_5_by_subj_alt.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
