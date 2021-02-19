@@ -2,6 +2,8 @@
 library(tidyverse)
 library(ggtext)
 
+setwd("C:/Users/Roger/Seafile/Roger_Seafile/SSI-EEG-3/SSI_4_R_project/")
+
 #load data
 a4 <- read.csv2("a4_SSI_4.csv")
 
