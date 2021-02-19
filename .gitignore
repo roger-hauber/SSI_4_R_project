@@ -7,5 +7,5 @@
 /Debriefing/*
 /influence_ME/*
 /plots/*
-.csv
-.html
+*.csv
+*.html
