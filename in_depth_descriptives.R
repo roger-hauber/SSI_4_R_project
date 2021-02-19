@@ -10,7 +10,7 @@ a4 <- read.csv2("a4_SSI_4.csv")
 #okay once again from the top
 # first things first: pre-post variable for a4 data
 a4[a4$subject %in% c(3,4, 7:18), "lockdown"] <- "pre"
-a4[a4$subject %in% c(1,2,5,6, 18:28), "lockdown"] <- "post"
+a4[a4$subject %in% c(1,2,5,6, 19:28), "lockdown"] <- "post"
 
 a4$lockdown <- factor(a4$lockdown, levels = c("pre", "post"))
 
@@ -95,6 +95,66 @@ plot_incr_by_DG_lockdown <- ggplot(data = incr_by_DG_lockdown, mapping = aes(g_n
 
 ggsave("plots/incr_by_DG_lockdown.jpg", device = "jpg", dpi = 700)
 
+# mean incr by subject
+
+incr_by_subj <- summarise(group_by(a4[a4$g_ng_count_cent %in% c(-2, 2), ], g_ng_count_cent, subject, Cond), 
+                                 RT = mean(RT))
+incr_by_subj <- mutate(group_by(incr_by_subj, Cond, subject), diff = diff(RT)/4)
+
+incr_by_subj[incr_by_subj$g_ng_count_cent == -2, "diff"] <- 0
+
+subj_levels <- numeric()
+for (i in 1:14){subj_levels <- c(subj_levels, i, i+14)}
+
+incr_by_subj$subject <- factor(incr_by_subj$subject, levels = subj_levels)
+
+#plot 
+incr_by_subj$g_ng_count_cent <- as.factor(incr_by_subj$g_ng_count_cent)
+
+plot_incr_by_subj <- ggplot(data = incr_by_subj, aes(x = g_ng_count_cent, y = diff, colour = Cond)) +
+  geom_point()+
+  geom_line(aes(group = Cond))+
+  facet_wrap(incr_by_subj$subject, ncol = 6)+
+  xlab("Increase in Ordinal Position")+
+  ylab("RT")+
+  ggtitle("Mean Difference in RT per Ordinal Position by Condition and Subject", 
+          subtitle = "Neighbourng subjects are *mirrors of each other*")+
+  scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))+
+  theme(plot.subtitle = element_markdown())
+ggsave("plots/incr_by_subj.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
+
+#add lockdown
+# mean incr by subject and lockdown
+
+incr_by_subj_lock <- summarise(group_by(a4[a4$g_ng_count_cent %in% c(-2, 2), ], 
+                                        g_ng_count_cent, subject, Cond, lockdown), 
+                          RT = mean(RT))
+incr_by_subj_lock <- mutate(group_by(incr_by_subj_lock, Cond, subject, lockdown), diff = diff(RT)/4)
+
+incr_by_subj_lock[incr_by_subj_lock$g_ng_count_cent == -2, "diff"] <- 0
+
+subj_levels <- numeric()
+for (i in 1:14){subj_levels <- c(subj_levels, i, i+14)}
+
+incr_by_subj_lock$subject <- factor(incr_by_subj_lock$subject, levels = subj_levels)
+
+#plot 
+incr_by_subj_lock$g_ng_count_cent <- as.factor(incr_by_subj_lock$g_ng_count_cent)
+
+plot_incr_by_subj_lock <- ggplot(data = incr_by_subj_lock, 
+                                 aes(x = g_ng_count_cent, y = diff, colour = Cond)) +
+  geom_point()+
+  geom_line(aes(group = Cond, linetype = lockdown))+
+  facet_wrap(incr_by_subj_lock$subject, ncol = 6)+
+  xlab("Increase in Ordinal Position")+
+  ylab("RT")+
+  ggtitle("Mean Difference in RT per Ordinal Position by Condition", 
+          subtitle = "separate for Subjects and by Interruption")+
+  scale_x_discrete(labels = c("ord pos n", "ord pos n+1"))+
+  theme(plot.subtitle = element_markdown())
+
+ggsave("plots/incr_by_subj_lock.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
+
 ## Dip from Ord Pos 4 to 5
 #by DG
 desc_by_DG_4_5 <- summarise(group_by(a4[a4$g_ng_count_1_5 %in% c("4", "5"), ], 
@@ -117,6 +177,9 @@ desc_by_subj_4_5 <- summarise(group_by(a4[a4$g_ng_count_1_5 %in% c("4", "5"), ],
                               RT = mean(RT))
 
 #plot it (but change levels of subject)
+subj_levels <- numeric()
+for (i in 1:14){subj_levels <- c(subj_levels, i, i+14)}
+
 desc_by_subj_4_5$subject <- factor(desc_by_subj_4_5$subject, levels = subj_levels)
 
 #plot
@@ -143,3 +206,5 @@ ord_pos_by_subj_1_5_alt <- ggplot(data = desc_by_subj_4_5,
           subtitle = "Neighboring subjects are *mirrors of each other*") +
   theme(plot.subtitle = ggtext::element_markdown())
 ggsave("plots/pos_4_5_by_subj_alt.pdf", device = "pdf", dpi = 700, height = 10, width = 12)
+
+
