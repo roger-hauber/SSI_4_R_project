@@ -245,3 +245,6 @@ ord_pos_by_cat_4_5_alt <- ggplot(data = desc_by_cat_4_5,
   ggtitle("RT at Ordinal Positions 4 and 5 by Condition and Category") +
   theme(plot.subtitle = ggtext::element_markdown())
 ggsave("plots/pos_4_5_by_cat_alt.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
+
+
+#irgendwas ändern
