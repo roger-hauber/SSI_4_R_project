@@ -157,6 +157,28 @@ plot_incr_by_subj_lock <- ggplot(data = incr_by_subj_lock,
 
 ggsave("plots/incr_by_subj_lock.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
 
+# mean incr by cat
+
+incr_by_cat <- summarise(group_by(a4[a4$g_ng_count_cent %in% c(-2, 2), ], g_ng_count_cent, Semantische.Kategorie, Cond), 
+                          RT = mean(RT))
+incr_by_cat <- mutate(group_by(incr_by_cat, Cond, Semantische.Kategorie), diff = diff(RT)/4)
+
+incr_by_cat[incr_by_cat$g_ng_count_cent == -2, "diff"] <- 0
+
+#plot 
+incr_by_cat$g_ng_count_cent <- as.factor(incr_by_cat$g_ng_count_cent)
+
+plot_incr_by_cat <- ggplot(data = incr_by_cat, aes(x = g_ng_count_cent, y = diff, colour = Cond)) +
+  geom_point()+
+  geom_line(aes(group = Cond))+
+  facet_wrap(incr_by_cat$Semantische.Kategorie, ncol = 6)+
+  xlab("Increase in Ordinal Position")+
+  ylab("RT")+
+  ggtitle("Mean Difference in RT per Ordinal Position by Condition and Category")+
+  scale_x_discrete(labels = c("ord pos i", "ord pos i+1"))+
+  theme(plot.subtitle = element_markdown())
+ggsave("plots/incr_by_cat.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
+
 ## Dip from Ord Pos 4 to 5
 #by DG
 desc_by_DG_4_5 <- summarise(group_by(a4[a4$g_ng_count_1_5 %in% c("4", "5"), ], 
@@ -209,4 +231,17 @@ ord_pos_by_subj_4_5_alt <- ggplot(data = desc_by_subj_4_5,
   theme(plot.subtitle = ggtext::element_markdown())
 ggsave("plots/pos_4_5_by_subj_alt.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
 
-
+###by cat
+desc_by_cat_4_5 <- summarise(group_by(a4[a4$g_ng_count_1_5 %in% c("4", "5"), ], 
+                                       Cond, Semantische.Kategorie, g_ng_count_1_5),
+                              RT = mean(RT))
+#alternate display of grid
+ord_pos_by_cat_4_5_alt <- ggplot(data = desc_by_cat_4_5, 
+                                  mapping = aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
+  geom_point() +
+  geom_line(aes(group = Cond)) +
+  facet_wrap(desc_by_cat_4_5$Semantische.Kategorie, ncol = 6) +
+  xlab("Ordinal Position") +
+  ggtitle("RT at Ordinal Positions 4 and 5 by Condition and Category") +
+  theme(plot.subtitle = ggtext::element_markdown())
+ggsave("plots/pos_4_5_by_cat_alt.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
