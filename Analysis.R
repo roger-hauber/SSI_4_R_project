@@ -15,7 +15,6 @@ library(coin) #for permutation tests
 library(psych)
 library(doBy)
 library(heplots)
-library(plyr) #necessary for ddply
 library(matrixStats) 
 library(foreign) 
 library(Hmisc)
@@ -47,6 +46,12 @@ else {a1 <- rbind(a1,tmp)} ### rbind glues currently loaded file (tmp) to the en
 str(a1) #check the data
 
 ### a couple of changes to the data before dropping any rows
+# add a lag variable per category and session
+a1 <- mutate(a1, row_num = rownames(a1))
+a1$row_num <- as.numeric(a1$row_num)
+
+a1 <- dplyr::mutate(group_by(a1, Session, Semantische.Kategorie), 
+                    lag_cat = row_num - dplyr::lag(row_num)-1)
 
 #mean centered ordinal position
 a1$g_ng_count_cent[a1$g_ng == "g1" & !a1$Cond == 206] <- scale(a1$g_ng_count[a1$g_ng == "g1" & !a1$Cond == 206], scale = FALSE, center = TRUE)

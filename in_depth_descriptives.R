@@ -247,4 +247,54 @@ ord_pos_by_cat_4_5_alt <- ggplot(data = desc_by_cat_4_5,
 ggsave("plots/pos_4_5_by_cat_alt.jpg", device = "jpg", dpi = 700, height = 10, width = 12)
 
 
-#irgendwas ändern
+#let's play around with lag (max until 10 o clock)
+# add row number to a4
+a4 <- mutate(a4, row_num = row_number()) 
+
+
+### debriefing
+colnames(debriefing_SSI_4)[colnames(debriefing_SSI_4) == "ID"] <- "subject"
+a4 <- merge(a4, debriefing_SSI_4, by = "subject")
+
+partner_attitude <- colnames(a4)[29:38]
+a4 <- mutate(a4, mean_partner = rowMeans(select(a4, all_of(partner_attitude))))
+
+# split in half (median)
+a4 <- mutate(a4, med_split_att = mean_partner >= median(mean_partner))
+
+a4$med_split_att <- as.factor(a4$med_split_att)
+a4$komp_koop <- as.factor(a4$komp_koop)
+
+
+#plot basic Cond by Ord Pos by median split
+desc_med_split <- summarise(group_by(a4, Cond, g_ng_count_1_5, med_split_att), RT = mean(RT))
+
+#bar graph first
+sum_med_split <- summarise(group_by(a4, subject, med_split_att), n = n())
+
+#bar graph of komp_koop
+bar_med_split <- ggplot(data = sum_med_split, aes(med_split_att))+
+  geom_bar()
+
+plot_med_split <- ggplot(data =desc_med_split, aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
+  geom_point()+
+  geom_line(aes(group = Cond))+
+  facet_wrap(vars(med_split_att))
+ggsave("plots/med_split.jpg", device = "jpg", dpi = 700)
+
+# by komp_koop
+sum_komp_koop <- summarise(group_by(a4, subject, komp_koop), n = n())
+
+#bar graph of komp_koop
+bar_komp_koop <- ggplot(data = sum_komp_koop, aes(komp_koop))+
+  geom_bar()
+
+desc_komp_koop <- summarise(group_by(a4, Cond, g_ng_count_1_5, komp_koop), RT = mean(RT))
+
+plot_komp_koop <- ggplot(data =desc_komp_koop, aes(x = g_ng_count_1_5, y = RT, colour = Cond)) +
+  geom_point()+
+  geom_line(aes(group = Cond))+
+  facet_wrap(vars(komp_koop))
+ggsave("plots/komp_koop.jpg", device = "jpg", dpi = 700)
+
+
