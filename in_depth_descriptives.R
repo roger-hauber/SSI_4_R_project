@@ -297,4 +297,20 @@ plot_komp_koop <- ggplot(data =desc_komp_koop, aes(x = g_ng_count_1_5, y = RT, c
   facet_wrap(vars(komp_koop))
 ggsave("plots/komp_koop.jpg", device = "jpg", dpi = 700)
 
+#### ord pos by cat (across Cond)
+# mean incr by cat
 
+incr_by_cat_SNJN <- summarise(group_by(a4[a4$g_ng_count_cent %in% c(-2, 2), ], g_ng_count_cent, Semantische.Kategorie), 
+                         RT = mean(RT))
+incr_by_cat_SNJN <- mutate(group_by(incr_by_cat_SNJN, Semantische.Kategorie), diff = diff(RT)/4)
+
+incr_by_cat_SNJN[incr_by_cat_SNJN$g_ng_count_cent == -2, "diff"] <- 0
+
+incr_by_cat_SNJN <- incr_by_cat_SNJN[incr_by_cat_SNJN$g_ng_count_cent == 2,]
+
+cat_with_ord_pos <- incr_by_cat_SNJN[incr_by_cat_SNJN$diff > 10, "Semantische.Kategorie"]
+
+## mean lag by category and session (a1 df)
+
+mean_lag_by_cat <- summarise(group_by(a1, Semantische.Kategorie, Session), 
+                             mean_lag = mean(lag_cat, na.rm =T)/10)

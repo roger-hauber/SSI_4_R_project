@@ -264,10 +264,114 @@ alt_mod_0 <- lmer(log(RT) ~ Cond*alt_g_ng_cent*DG_cent + (1 | ItemID) +
 
 ############ LMMs
 
-mod1 <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent + ( 1| Item) + 
-               (1 | subject) + 
-               (1 | Semantische.Kategorie), a4, REML = FALSE)
+mod1 <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent + ( Cond*g_ng_count_cent| Item) + 
+               (Cond*g_ng_count_cent | subject) + 
+               (Cond*g_ng_count_cent | Semantische.Kategorie), a4, REML = FALSE)
 
+
+# models of data without DG 1
+mod_DG_2_4 <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent + ( 1| Item) + 
+                     (1 | subject) + 
+                     (1 | Semantische.Kategorie), a4[a4$DG != "1", ], REML = FALSE)
+#fuller model
+mod_DG_2_4_full <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent +
+                          (Cond*g_ng_count_cent|ItemID) + 
+                          (Cond*g_ng_count_cent|subject) + 
+                          (Cond*g_ng_count_cent|KatCode), 
+             data = a4[a4$DG != "1", ], control = lmerControl(calc.derivs = FALSE), REML=FALSE)
+
+#without DG 1 and 2
+mod_DG_3_4 <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent + ( 1| Item) + 
+                     (1 | subject) + 
+                     (1 | Semantische.Kategorie), a4[a4$DG %in% c("3","4"), ], REML = FALSE)
+
+# model including koomp koop
+mod_komp_koop <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent*komp_koop + ( 1| Item) + 
+                        (1 | subject) + 
+                        (1 | Semantische.Kategorie), a4, REML = FALSE)
+
+mod_komp_koop_sep <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent +
+                            komp_koop*Cond*g_ng_count_cent+ 
+                            ( 1| Item) + 
+                            (1 | subject) + 
+                            (1 | Semantische.Kategorie), a4, REML = FALSE)
+#build mer approach
+library(buildmer)
+build_mod_komp_koop_sep <- buildmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent +
+                                      komp_koop*Cond*g_ng_count_cent+ 
+                                      ( Cond*g_ng_count_cent*DG_cent| Item) + 
+                                      (Cond*g_ng_count_cent*DG_cent | subject) + 
+                                      (Cond*g_ng_count_cent*DG_cent | Semantische.Kategorie),
+                       data = a4,
+                       REML = FALSE, # or TRUE
+                       control = lmerControl(calc.derivs = FALSE,
+                                             optimizer = "bobyqa",
+                                             optCtrl = list(maxfun = 2e5)),
+                       buildmerControl = buildmerControl(ddf = "Satterthwaite", # or "Kenward-Roger"
+                                                         direction = c("backward", "backward"),
+                                                         elim = function(logp) exp(logp) >= .20))
+
+
+# models excluding all cats, where ord_pos effect (across conditions < 10 ms)
+#new df without cats < 10 ms
+a5 <- a4[a4$Semantische.Kategorie %in% cat_with_ord_pos$Semantische.Kategorie, ]
+
+a5$Item <- factor(a5$Item, levels = unique(a5$Item))
+
+mod_cat_ord_pos <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent +
+                          ( 1| Item) + 
+                          (1 | subject) + 
+                          (1 | Semantische.Kategorie), 
+                        a5, REML = FALSE)
+#buildmer approach
+#without DG 1
+mod_cat_ord_pos_DG_2_4 <- lmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent +
+                          ( 1| Item) + 
+                          (1 | subject) + 
+                          (1 | Semantische.Kategorie), 
+                        a5[a5$DG != "1", ], REML = FALSE)
+
+## buildmer_approaches for the new models
+# no DG 1
+
+build_mod_no_DG_1 <- buildmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent + ( Cond*g_ng_count_cent*DG_cent| Item) + 
+           (Cond*g_ng_count_cent*DG_cent | subject) + 
+           (Cond*g_ng_count_cent*DG_cent | Semantische.Kategorie), 
+         data = a4[a4$DG != "1", ],
+         REML = FALSE, # or TRUE
+         control = lmerControl(calc.derivs = FALSE,
+                               optimizer = "bobyqa",
+                               optCtrl = list(maxfun = 2e5)),
+         buildmerControl = buildmerControl(ddf = "Satterthwaite", # or "Kenward-Roger"
+                                           direction = c("backward", "backward"),
+                                           elim = function(logp) exp(logp) >= .20))
+# only cats above 10 ms across cond
+
+build_mod_cats_10ms <- buildmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent + ( Cond*g_ng_count_cent*DG_cent| Item) + 
+                (Cond*g_ng_count_cent*DG_cent | subject) + 
+                (Cond*g_ng_count_cent*DG_cent | Semantische.Kategorie), 
+              data = a5,
+              REML = FALSE, # or TRUE
+              control = lmerControl(calc.derivs = FALSE,
+                                    optimizer = "bobyqa",
+                                    optCtrl = list(maxfun = 2e5)),
+              buildmerControl = buildmerControl(ddf = "Satterthwaite", # or "Kenward-Roger"
+                                                direction = c("backward", "backward"),
+                                                elim = function(logp) exp(logp) >= .20))
+# Comp_coop
+build_mod_komp_koop_sep <- buildmer(log(RT) ~ Cond*g_ng_count_cent*DG_cent +
+                                      komp_koop*Cond*g_ng_count_cent+ 
+                                      ( Cond*g_ng_count_cent*DG_cent| Item) + 
+                                      (Cond*g_ng_count_cent*DG_cent | subject) + 
+                                      (Cond*g_ng_count_cent*DG_cent | Semantische.Kategorie),
+                                    data = a4,
+                                    REML = FALSE, # or TRUE
+                                    control = lmerControl(calc.derivs = FALSE,
+                                                          optimizer = "bobyqa",
+                                                          optCtrl = list(maxfun = 2e5)),
+                                    buildmerControl = buildmerControl(ddf = "Satterthwaite", # or "Kenward-Roger"
+                                                                      direction = c("backward", "backward"),
+                                                                      elim = function(logp) exp(logp) >= .20))
 # let's use influence.ME to look at which items, categories and subjects influence the estimates disproportionately
 
 library(influence.ME)
